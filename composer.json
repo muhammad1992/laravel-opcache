@@ -1,15 +1,22 @@
 {
-    "name": "appstract/laravel-opcache",
+    "name": "pollen/laravel-opcache",
     "description": "PHP OPcache Artisan commands for Laravel.",
     "keywords": [
-        "appstract",
+        "AmphiBee",
+        "pollen",
         "opcache",
         "laravel",
         "php"
     ],
-    "homepage": "https://github.com/appstract/laravel-opcache",
+    "homepage": "https://github.com/AmphiBee/laravel-opcache/",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Olivier Gorzalka",
+            "email": "olivier@amphibee.fr",
+            "homepage": "https://amphibee.fr",
+            "role": "CTO"
+        },
         {
             "name": "Olav van Schie",
             "email": "mail@appstract.nl",
@@ -49,7 +56,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Appstract\\Opcache\\OpcacheServiceProvider"
+                "Pollen\\Opcache\\OpcacheServiceProvider"
             ]
         }
     }
