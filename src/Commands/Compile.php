@@ -20,17 +20,17 @@ class Compile extends Command
         $this->line('Compiling scripts...');
 
         try {
-            $response = $this->sendRequest('compile', ['force' => $this->option('force')]);
-            $response->throw(); // Ensure the method is supported and correctly handles exceptions.
+            $request = $this->sendRequest('compile', ['force' => $this->option('force')]);
+            $request->throw(); // Ensure the method is supported and correctly handles exceptions.
+            $response = $request->json();
 
-            if (isset($response['result']['message'])) {
-                $this->warn($response['result']['message']);
+            if (isset($response['success'])) {
+                $this->warn($response['message']);
 
                 return 1;
-            } elseif ($response['result']) {
-                $this->info(sprintf('%s of %s files compiled', $response['result']['compiled_count'], $response['result']['total_files_count']));
-
-                return 0;
+            } else {
+                $this->error($response['message']);
+                return 2;
             }
         } catch (RequestException $e) {
             $this->error("Request failed: {$e->getMessage()}");

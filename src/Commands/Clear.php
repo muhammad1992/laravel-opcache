@@ -18,10 +18,11 @@ class Clear extends Command
     public function handle(): int
     {
         try {
-            $response = $this->sendRequest('clear');
-            $response->throw(); // Assurez-vous que cette méthode est compatible et gère correctement les exceptions.
+            $request = $this->sendRequest('clear');
+            $request->throw();
+            $response = $request->json();
 
-            if ($response['result']) {
+            if ($response['success']) {
                 $this->info('OPcache cleared');
             } else {
                 $this->error('OPcache not configured');

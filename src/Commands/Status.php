@@ -17,11 +17,11 @@ class Status extends Command
     public function handle(): int
     {
         try {
-            $response = $this->sendRequest('status');
-            $response->throw(); // Ensure the method is supported and correctly handles exceptions.
-
-            if ($response['result']) {
-                $this->displayTables($response['result']);
+            $request = $this->sendRequest('status');
+            $request->throw(); // Ensure the method is supported and correctly handles exceptions.
+            $response = $request->json();
+            if ($response['success']) {
+                $this->displayTables($response['status']);
                 return 0;
             }
         } catch (RequestException $e) {

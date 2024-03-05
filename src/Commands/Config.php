@@ -18,17 +18,18 @@ class Config extends Command
     public function handle(): int
     {
         try {
-            $response = $this->sendRequest('config');
-            $response->throw(); // Ensure the method is supported and correctly handles exceptions.
-
-            if ($response['result']) {
+            $request = $this->sendRequest('config');
+            $request->throw(); // Ensure the method is supported and correctly handles exceptions.
+            $response = $request->json();
+            if ($response['success']) {
                 $this->line('Version info:');
-                $this->table([], $this->parseTable($response['result']['version']));
-
+                $this->table([], $this->parseTable($response['config']['version']));
                 $this->line(PHP_EOL.'Configuration info:');
-                $this->table([], $this->parseTable($response['result']['directives']));
-
+                $this->table([], $this->parseTable($response['config']['directives']));
                 return 0;
+            } else {
+                $this->error($response['message']);
+                return 2;
             }
         } catch (RequestException $e) {
             $this->error("Request failed: {$e->getMessage()}");
