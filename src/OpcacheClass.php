@@ -1,51 +1,54 @@
 <?php
 
-namespace Appstract\Opcache;
+namespace Pollen\Opcache;
 
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Finder\Finder;
 
-/**
- * Class OpcacheClass.
- */
 class OpcacheClass
 {
     /**
-     * Clear OPcache.
+     * Clear the OPcache.
      */
-    public function clear()
+    public function clear(): ?bool
     {
         if (function_exists('opcache_reset')) {
             return opcache_reset();
         }
+
+        return null;
     }
 
     /**
-     * Get configuration values.
+     * Retrieve the configuration values of OPcache.
      */
-    public function getConfig()
+    public function getConfig(): ?array
     {
         if (function_exists('opcache_get_configuration')) {
             return opcache_get_configuration();
         }
+
+        return null;
     }
 
     /**
-     * Get status info.
+     * Get status information about the cache.
      */
-    public function getStatus()
+    public function getStatus(): ?array
     {
         if (function_exists('opcache_get_status')) {
             return opcache_get_status(false);
         }
+
+        return null;
     }
 
     /**
-     * Pre-compile php scripts.
+     * Pre-compile PHP scripts.
      *
-     * @param bool $force
-     * @return array
+     * @param  bool  $force  Whether to force the compilation regardless of opcache.dups_fix setting.
      */
-    public function compile($force = false)
+    public function compile(bool $force = false): ?array
     {
         if (! ini_get('opcache.dups_fix') && ! $force) {
             return ['message' => 'opcache.dups_fix must be enabled, or run with --force'];
@@ -53,32 +56,34 @@ class OpcacheClass
 
         if (function_exists('opcache_compile_file')) {
             $compiled = 0;
-
-            // Get files in these paths
-            $files = collect(Finder::create()->in(config('opcache.directories'))
+            $finder = new Finder();
+            $finder->in(config('opcache.directories'))
+                ->files()
                 ->name('*.php')
                 ->ignoreUnreadableDirs()
                 ->notContains('#!/usr/bin/env php')
                 ->exclude(config('opcache.exclude'))
-                ->files()
-                ->followLinks());
+                ->followLinks();
 
-            // optimized files
-            $files->each(function ($file) use (&$compiled) {
-                try {
-                    if (! opcache_is_script_cached($file)) {
-                        opcache_compile_file($file);
+            foreach ($finder as $file) {
+                $filePath = $file->getRealPath();
+                if (! opcache_is_script_cached($filePath)) {
+                    try {
+                        opcache_compile_file($filePath);
+                        $compiled++;
+                    } catch (\Exception $e) {
+                        // Logging any exceptions encountered during compilation
+                        Log::error("Failed to compile file: $filePath", ['exception' => $e->getMessage()]);
                     }
-
-                    $compiled++;
-                } catch (\Exception $e) {
                 }
-            });
+            }
 
             return [
-                'total_files_count' => $files->count(),
+                'total_files_count' => iterator_count($finder),
                 'compiled_count' => $compiled,
             ];
         }
+
+        return null;
     }
 }

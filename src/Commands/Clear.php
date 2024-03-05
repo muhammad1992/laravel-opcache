@@ -1,44 +1,41 @@
 <?php
 
-namespace Appstract\Opcache\Commands;
+namespace Pollen\Opcache\Commands;
 
-use Appstract\Opcache\CreatesRequest;
 use Illuminate\Console\Command;
+use Illuminate\Container\EntryNotFoundException;
+use Illuminate\Http\Client\RequestException;
+use Pollen\Opcache\CreatesRequest;
 
 class Clear extends Command
 {
     use CreatesRequest;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $signature = 'opcache:clear';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Clear OPCache';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): int
     {
-        $response = $this->sendRequest('clear');
-        $response->throw();
+        try {
+            $response = $this->sendRequest('clear');
+            $response->throw(); // Assurez-vous que cette méthode est compatible et gère correctement les exceptions.
 
-        if ($response['result']) {
-            $this->info('OPcache cleared');
-        } else {
-            $this->error('OPcache not configured');
+            if ($response['result']) {
+                $this->info('OPcache cleared');
+            } else {
+                $this->error('OPcache not configured');
 
-            return 2;
+                return 2;
+            }
+        } catch (RequestException $e) {
+            $this->error("Request failed: {$e->getMessage()}");
+
+            return 1;
+        } catch (EntryNotFoundException $e) {
+            $this->error("Entry not found: {$e->getMessage()}");
         }
+
+        return 0;
     }
 }

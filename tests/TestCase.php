@@ -1,28 +1,26 @@
 <?php
 
-namespace Appstract\Opcache\Test;
+namespace Pollen\Opcache\Test;
 
-use Appstract\Opcache\OpcacheServiceProvider;
-use Orchestra\Testbench\TestCase as Orchestra;
+use Illuminate\Foundation\Application as LaravelApplication;
+use Pollen\Opcache\OpcacheServiceProvider;
 
-abstract class TestCase extends Orchestra
+abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
     /**
-     * @param \Illuminate\Foundation\Application $app
+     * @param  LaravelApplication  $app
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('app.url', 'http://laravel7.test/');
-        $app['config']->set('opcache.url', 'http://laravel7.test/');
-        $app['config']->set('app.key', 'base64:Ed0VpanUWokW8AgY8jRCU8A5Cn3ou+uby8qLCQysUpg=');
+        $app['config']->set('app.url', 'https://ecranlarge.docker.localhost/');
+        $app['config']->set('opcache.url', 'https://ecranlarge.docker.localhost/');
+        $app['config']->set('app.key', 'base64:NzomrFIcRyc3IcbgaCRG95yL+ihJrNYS8f6Jr/YRSDg=');
     }
 
     /**
-     * @param \Illuminate\Foundation\Application $app
-     *
-     * @return array
+     * @param  LaravelApplication  $app
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [OpcacheServiceProvider::class];
     }

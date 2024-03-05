@@ -1,54 +1,69 @@
 <?php
 
-namespace Appstract\Opcache\Http\Controllers;
+namespace Pollen\Opcache\Http\Controllers;
 
-use Appstract\Opcache\OpcacheFacade as OPcache;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Pollen\Opcache\OpcacheFacade as OPcache;
 
-/**
- * Class OpcacheController.
- */
 class OpcacheController extends BaseController
 {
     /**
-     * Clear the OPcache.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @throws BindingResolutionException
      */
-    public function clear()
+    public function clear(): JsonResponse
     {
-        return response()->json(['result' => OPcache::clear()]);
+        $result = OPcache::clear();
+
+        if ($result) {
+            return response()->json(['success' => true, 'message' => 'OPcache cleared successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to clear OPcache.'], 500);
     }
 
     /**
-     * Get config values.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @throws BindingResolutionException
      */
-    public function config()
+    public function config(): JsonResponse
     {
-        return response()->json(['result' => OPcache::getConfig()]);
+        $config = OPcache::getConfig();
+
+        if ($config) {
+            return response()->json(['success' => true, 'config' => $config]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to retrieve OPcache configuration.'], 500);
     }
 
     /**
-     * Get status info.
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @throws BindingResolutionException
      */
-    public function status()
+    public function status(): JsonResponse
     {
-        return response()->json(['result' => OPcache::getStatus()]);
+        $status = OPcache::getStatus();
+
+        if ($status) {
+            return response()->json(['success' => true, 'status' => $status]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to retrieve OPcache status.'], 500);
     }
 
     /**
-     * Compile.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @throws BindingResolutionException
      */
-    public function compile(Request $request)
+    public function compile(Request $request): JsonResponse
     {
-        return response()->json(['result' => OPcache::compile($request->get('force'))]);
+        $force = $request->get('force', false) === 'true';
+        $result = OPcache::compile($force);
+
+        if ($result) {
+            return response()->json(['success' => true, 'message' => 'OPcache compilation initiated successfully.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to initiate OPcache compilation.'], 500);
     }
 }

@@ -1,52 +1,38 @@
 <?php
 
-namespace Appstract\Opcache\Commands;
+namespace Pollen\Opcache\Commands;
 
-use Appstract\Opcache\CreatesRequest;
+use Pollen\Opcache\CreatesRequest;
 use Illuminate\Console\Command;
+use Illuminate\Http\Client\RequestException;
 
 class Status extends Command
 {
     use CreatesRequest;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $signature = 'opcache:status';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Show OPcache status';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): int
     {
-        $response = $this->sendRequest('status');
-        $response->throw();
+        try {
+            $response = $this->sendRequest('status');
+            $response->throw(); // Ensure the method is supported and correctly handles exceptions.
 
-        if ($response['result']) {
-            $this->displayTables($response['result']);
-        } else {
-            $this->error('OPcache not configured');
-
-            return 2;
+            if ($response['result']) {
+                $this->displayTables($response['result']);
+                return 0;
+            }
+        } catch (RequestException $e) {
+            $this->error("Request failed: {$e->getMessage()}");
+            return 1;
         }
+
+        $this->error('OPcache not configured');
+        return 2;
     }
 
-    /**
-     * Display info tables.
-     *
-     * @param $data
-     */
     protected function displayTables($data)
     {
         $general = $data;
@@ -76,20 +62,14 @@ class Status extends Command
         }
     }
 
-    /**
-     * Make up the table for console display.
-     *
-     * @param $input
-     *
-     * @return array
-     */
     protected function parseTable($input)
     {
         $input = (array) $input;
-        $bytes = ['used_memory', 'free_memory', 'wasted_memory', 'buffer_size'];
-        $times = ['start_time', 'last_restart_time'];
 
-        return array_map(function ($key, $value) use ($bytes, $times) {
+        return array_map(function ($key, $value) {
+            $times = ['start_time', 'last_restart_time'];
+            $bytes = ['used_memory', 'free_memory', 'wasted_memory', 'buffer_size'];
+
             if (in_array($key, $bytes)) {
                 $value = number_format($value / 1048576, 2).' MB';
             } elseif (in_array($key, $times)) {

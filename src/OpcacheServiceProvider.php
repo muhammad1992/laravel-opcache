@@ -1,16 +1,21 @@
 <?php
 
-namespace Appstract\Opcache;
+namespace Pollen\Opcache;
 
 use Illuminate\Support\ServiceProvider;
+use Pollen\Opcache\Http\Middleware\Request;
 
 class OpcacheServiceProvider extends ServiceProvider
 {
     /**
-     * Bootstrap the application services.
+     * Bootstrap any application services.
+     *
+     * This method is called after all other service providers have been registered,
+     * meaning you have access to all other services that have been registered by the framework.
      */
-    public function boot()
+    public function boot(): void
     {
+        // Register commands for use in the console.
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Commands\Clear::class,
@@ -19,6 +24,7 @@ class OpcacheServiceProvider extends ServiceProvider
                 Commands\Compile::class,
             ]);
 
+            // Publish the package configuration to the application's own config directory.
             $this->publishes([
                 __DIR__.'/../config/opcache.php' => config_path('opcache.php'),
             ], 'config');
@@ -26,20 +32,28 @@ class OpcacheServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the application services.
+     * Register any application services.
+     *
+     * This method is a great spot to register your service provider's
+     * own services in the container.
      */
-    public function register()
+    public function register(): void
     {
-        // config
+        // Merge the package configuration file with the application's published copy.
         $this->mergeConfigFrom(__DIR__.'/../config/opcache.php', 'opcache');
 
-        // bind routes
+        // Register routes.
         $this->app->router->group([
-            'middleware'    => [\Appstract\Opcache\Http\Middleware\Request::class],
-            'prefix'        => config('opcache.prefix'),
-            'namespace'     => 'Appstract\Opcache\Http\Controllers',
+            'middleware' => [Request::class],
+            'prefix' => config('opcache.prefix'),
+            'namespace' => 'Pollen\Opcache\Http\Controllers',
         ], function ($router) {
             require __DIR__.'/Http/routes.php';
+        });
+
+        // Register the service class in the container.
+        $this->app->singleton(OpcacheClass::class, function ($app) {
+            return new OpcacheClass();
         });
     }
 }

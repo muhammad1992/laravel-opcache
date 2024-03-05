@@ -1,59 +1,49 @@
 <?php
 
-namespace Appstract\Opcache\Commands;
+namespace Pollen\Opcache\Commands;
 
-use Appstract\Opcache\CreatesRequest;
 use Illuminate\Console\Command;
+use Illuminate\Container\EntryNotFoundException;
+use Illuminate\Http\Client\RequestException;
+use Pollen\Opcache\CreatesRequest;
 
 class Config extends Command
 {
     use CreatesRequest;
 
-    /**
-     * The console command name.
-     *
-     * @var string
-     */
     protected $signature = 'opcache:config';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Show your OPcache configuration';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
-    public function handle()
+    public function handle(): int
     {
-        $response = $this->sendRequest('config');
-        $response->throw();
+        try {
+            $response = $this->sendRequest('config');
+            $response->throw(); // Ensure the method is supported and correctly handles exceptions.
 
-        if ($response['result']) {
-            $this->line('Version info:');
-            $this->table([], $this->parseTable($response['result']['version']));
+            if ($response['result']) {
+                $this->line('Version info:');
+                $this->table([], $this->parseTable($response['result']['version']));
 
-            $this->line(PHP_EOL.'Configuration info:');
-            $this->table([], $this->parseTable($response['result']['directives']));
-        } else {
-            $this->error('OPcache not configured');
+                $this->line(PHP_EOL.'Configuration info:');
+                $this->table([], $this->parseTable($response['result']['directives']));
 
-            return 2;
+                return 0;
+            }
+        } catch (RequestException $e) {
+            $this->error("Request failed: {$e->getMessage()}");
+
+            return 1;
+        } catch (EntryNotFoundException $e) {
+            $this->error("Entry not found: {$e->getMessage()}");
         }
+
+        $this->error('OPcache not configured');
+
+        return 2;
     }
 
-    /**
-     * Make up the table for console display.
-     *
-     * @param $input
-     *
-     * @return array
-     */
-    protected function parseTable($input)
+    protected function parseTable($input): array
     {
         $input = (array) $input;
 
@@ -67,8 +57,8 @@ class Config extends Command
             }
 
             return [
-                'key'       => $key,
-                'value'     => $value,
+                'key' => $key,
+                'value' => $value,
             ];
         }, array_keys($input), $input);
     }

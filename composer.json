@@ -23,24 +23,28 @@
         "guzzlehttp/guzzle": "^6.3.1|^7.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^8.5"
+        "orchestra/testbench": "^8.21",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-laravel": "^2.3"
     },
     "autoload": {
         "psr-4": {
-            "Appstract\\Opcache\\": "src"
+            "Pollen\\Opcache\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Appstract\\Opcache\\Test\\": "tests"
+            "Pollen\\Opcache\\Test\\": "tests"
         }
     },
     "scripts": {
         "test": "vendor/bin/phpunit"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     },
     "extra": {
         "laravel": {
