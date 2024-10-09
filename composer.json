@@ -11,6 +11,12 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Aron Makra",
+            "email": "makra.aron@gmail.com",
+            "homepage": "https://github.com/arnyee",
+            "role": "CTO"
+        },
+        {
             "name": "Olivier Gorzalka",
             "email": "olivier@amphibee.fr",
             "homepage": "https://amphibee.fr",

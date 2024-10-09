@@ -1,8 +1,8 @@
 # Laravel OPcache
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/arnyee/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-opcache)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/arnyee/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/arnyee/laravel-opcache)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Total Downloads](https://img.shields.io/packagist/dt/arnyee/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-opcache)
+[![Total Downloads](https://img.shields.io/packagist/dt/arnyee/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/arnyee/laravel-opcache)
 
 This package contains some useful Artisan commands to work with PHP OPcache.
 
