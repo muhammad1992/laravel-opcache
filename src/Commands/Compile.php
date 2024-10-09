@@ -33,6 +33,7 @@ class Compile extends Command
                     return 1;
                 } elseif ($response['result']) {
                     $this->info(sprintf('%s of %s files compiled', $response['result']['compiled_count'], $response['result']['total_files_count']));
+                    return 0;
                 } else {
                     $this->error('OPcache not configured');
                     return 2;
