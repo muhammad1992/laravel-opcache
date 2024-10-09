@@ -1,6 +1,6 @@
 <?php
 
-namespace Pollen\Opcache;
+namespace Arnyee\Opcache;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static array|null getStatus()
  * @method static array|null compile(bool $force = false)
  *
- * @see \Pollen\Opcache\OpcacheClass
+ * @see \Arnyee\Opcache\OpcacheClass
  */
 class OpcacheFacade extends Facade
 {

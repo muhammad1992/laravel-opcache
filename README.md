@@ -1,8 +1,8 @@
 # Laravel OPcache
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/pollen/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-opcache)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/arnyee/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-opcache)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Total Downloads](https://img.shields.io/packagist/dt/pollen/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-opcache)
+[![Total Downloads](https://img.shields.io/packagist/dt/arnyee/laravel-opcache.svg?style=flat-square)](https://packagist.org/packages/appstract/laravel-opcache)
 
 This package contains some useful Artisan commands to work with PHP OPcache.
 
@@ -16,13 +16,13 @@ This package requires Laravel 7 or newer.
 You can install the package via Composer:
 
 ``` bash
-composer require pollen/laravel-opcache
+composer require arnyee/laravel-opcache
 ```
 
 If you need to change config values, you can publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="Pollen\Opcache\OpcacheServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Arnyee\Opcache\OpcacheServiceProvider" --tag="config"
 ```
 
 Make sure your APP_URL is set correctly in .env.
@@ -57,7 +57,7 @@ If you run into "Cannot redeclare class" errors, enable `opcache.dups_fix` or ad
 Programmatic usage:
 
 ```php
-use Pollen\Opcache\OpcacheFacade as OPcache;
+use Arnyee\Opcache\OpcacheFacade as OPcache;
 
 ...
 
@@ -66,11 +66,11 @@ OPcache::clear();
 
 ## Contributing
 
-Contributions are welcome, [thanks to y'all](https://github.com/AmphiBee/laravel-opcache/graphs/contributors) :)
+Contributions are welcome, [thanks to y'all](https://github.com/arnyee/laravel-opcache/graphs/contributors) :)
 
-## About AmphiBee
+## About arnyee
 
-We're AmphiBee, a WordPress / WooCommerce agency 
+Hello I am Árni, I like to try myself with open source projects.
 
 ## Credits
 

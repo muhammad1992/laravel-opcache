@@ -1,5 +1,5 @@
 <?php
-use Pollen\Opcache\Http\Controllers\OpcacheController;
+use Arnyee\Opcache\Http\Controllers\OpcacheController;
 
 $router->get('clear', [OpcacheController::class, 'clear']);
 $router->get('config', [OpcacheController::class, 'config']);

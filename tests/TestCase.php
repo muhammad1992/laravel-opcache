@@ -1,9 +1,9 @@
 <?php
 
-namespace Pollen\Opcache\Test;
+namespace Arnyee\Opcache\Test;
 
 use Illuminate\Foundation\Application as LaravelApplication;
-use Pollen\Opcache\OpcacheServiceProvider;
+use Arnyee\Opcache\OpcacheServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {

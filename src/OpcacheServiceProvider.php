@@ -1,9 +1,9 @@
 <?php
 
-namespace Pollen\Opcache;
+namespace Arnyee\Opcache;
 
 use Illuminate\Support\ServiceProvider;
-use Pollen\Opcache\Http\Middleware\Request;
+use Arnyee\Opcache\Http\Middleware\Request;
 
 class OpcacheServiceProvider extends ServiceProvider
 {
@@ -46,7 +46,7 @@ class OpcacheServiceProvider extends ServiceProvider
         $this->app->router->group([
             'middleware' => [Request::class],
             'prefix' => config('opcache.prefix'),
-            'namespace' => 'Pollen\Opcache\Http\Controllers',
+            'namespace' => 'Arnyee\Opcache\Http\Controllers',
         ], function ($router) {
             require __DIR__.'/Http/routes.php';
         });

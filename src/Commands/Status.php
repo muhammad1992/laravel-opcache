@@ -1,8 +1,8 @@
 <?php
 
-namespace Pollen\Opcache\Commands;
+namespace Arnyee\Opcache\Commands;
 
-use Pollen\Opcache\CreatesRequest;
+use Arnyee\Opcache\CreatesRequest;
 use Illuminate\Console\Command;
 use Illuminate\Http\Client\RequestException;
 

@@ -1,11 +1,11 @@
 <?php
 
-namespace Pollen\Opcache\Commands;
+namespace Arnyee\Opcache\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\EntryNotFoundException;
 use Illuminate\Http\Client\RequestException;
-use Pollen\Opcache\CreatesRequest;
+use Arnyee\Opcache\CreatesRequest;
 
 class Compile extends Command
 {
@@ -27,7 +27,16 @@ class Compile extends Command
             if (isset($response['success'])) {
                 $this->warn($response['message']);
 
-                return 1;
+                if (isset($response['result']['message'])) {
+                    $this->warn($response['result']['message']);
+
+                    return 1;
+                } elseif ($response['result']) {
+                    $this->info(sprintf('%s of %s files compiled', $response['result']['compiled_count'], $response['result']['total_files_count']));
+                } else {
+                    $this->error('OPcache not configured');
+                    return 2;
+                }
             } else {
                 $this->error($response['message']);
                 return 2;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pollen\Opcache;
+namespace Arnyee\Opcache;
 
 use Illuminate\Container\EntryNotFoundException;
 use Illuminate\Http\Client\Response;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Pollen\Opcache\Http\Middleware;
+namespace Arnyee\Opcache\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Encryption\DecryptException;

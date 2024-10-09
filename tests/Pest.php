@@ -1,6 +1,6 @@
 <?php
 
-use Pollen\Opcache\Test\TestCase;
+use Arnyee\Opcache\Test\TestCase;
 
 uses(TestCase::class)->in(__DIR__);
 /*

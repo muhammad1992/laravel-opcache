@@ -1,6 +1,6 @@
 <?php
 
-namespace Pollen\Opcache;
+namespace Arnyee\Opcache;
 
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Finder\Finder;

@@ -1,11 +1,11 @@
 <?php
 
-namespace Pollen\Opcache\Commands;
+namespace Arnyee\Opcache\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\EntryNotFoundException;
 use Illuminate\Http\Client\RequestException;
-use Pollen\Opcache\CreatesRequest;
+use Arnyee\Opcache\CreatesRequest;
 
 class Clear extends Command
 {

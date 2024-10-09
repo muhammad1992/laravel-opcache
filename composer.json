@@ -1,14 +1,13 @@
 {
-    "name": "pollen/laravel-opcache",
+    "name": "arnyee/laravel-opcache",
     "description": "PHP OPcache Artisan commands for Laravel.",
     "keywords": [
-        "AmphiBee",
-        "pollen",
+        "arnyee",
         "opcache",
         "laravel",
         "php"
     ],
-    "homepage": "https://github.com/AmphiBee/laravel-opcache/",
+    "homepage": "https://github.com/arnyee/laravel-opcache/",
     "license": "MIT",
     "authors": [
         {
@@ -35,12 +34,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Pollen\\Opcache\\": "src"
+            "Arnyee\\Opcache\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Pollen\\Opcache\\Test\\": "tests"
+            "Arnyee\\Opcache\\Test\\": "tests"
         }
     },
     "scripts": {
@@ -55,7 +54,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Pollen\\Opcache\\OpcacheServiceProvider"
+                "Arnyee\\Opcache\\OpcacheServiceProvider"
             ]
         }
     }

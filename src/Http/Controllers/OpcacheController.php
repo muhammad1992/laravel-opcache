@@ -1,12 +1,12 @@
 <?php
 
-namespace Pollen\Opcache\Http\Controllers;
+namespace Arnyee\Opcache\Http\Controllers;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
-use Pollen\Opcache\OpcacheFacade as OPcache;
+use Arnyee\Opcache\OpcacheFacade as OPcache;
 
 class OpcacheController extends BaseController
 {
@@ -61,9 +61,9 @@ class OpcacheController extends BaseController
         $result = OPcache::compile($force);
 
         if ($result) {
-            return response()->json(['success' => true, 'message' => 'OPcache compilation initiated successfully.']);
+            return response()->json(['result' => $result, 'success' => true, 'message' => 'OPcache compilation initiated successfully.']);
         }
 
-        return response()->json(['success' => false, 'message' => 'Failed to initiate OPcache compilation.'], 500);
+        return response()->json(['result' => null, 'success' => false, 'message' => 'Failed to initiate OPcache compilation.'], 500);
     }
 }
